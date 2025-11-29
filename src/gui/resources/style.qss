@@ -1,0 +1,109 @@
+/* ============================================
+   TEMA VSCode Dark+
+   ============================================ */
+
+/* JANELA PRINCIPAL */
+QMainWindow {
+    background-color: #1e1e1e;
+}
+
+/* LABELS */
+QLabel {
+    color: #cccccc;
+}
+
+/* GRUPOS */
+QGroupBox {
+    border: 1px solid #3c3c3c;
+    border-radius: 6px;
+    margin-top: 10px;
+    padding-top: 15px;
+}
+
+QGroupBox::title {
+    subcontrol-origin: margin;
+    left: 10px;
+    padding: 0px 6px;
+    color: #0e639c;
+    font-weight: bold;
+}
+
+/* BOTÕES */
+QPushButton {
+    background-color: #0e639c;
+    color: #ffffff;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+}
+
+QPushButton:hover {
+    background-color: #1177bb;
+}
+
+QPushButton:pressed {
+    background-color: #094771;
+}
+
+/* CAMPOS DE TEXTO */
+QLineEdit, QSpinBox, QComboBox {
+    background-color: #252526;
+    color: #e6e6e6;
+    border: 1px solid #3c3c3c;
+    padding: 4px 6px;
+    border-radius: 4px;
+}
+
+QComboBox QAbstractItemView {
+    background-color: #1e1e1e;
+    color: #cccccc;
+    border: 1px solid #3c3c3c;
+}
+
+/* ÁREA DE LOGS */
+QTextEdit {
+    background-color: #1e1e1e;
+    color: #cccccc;
+    border: 1px solid #3c3c3c;
+    border-radius: 6px;
+    padding: 6px;
+}
+
+/* SCROLLBARS */
+QScrollBar:vertical {
+    background-color: #1e1e1e;
+    width: 10px;
+}
+
+QScrollBar::handle:vertical {
+    background-color: #3c3c3c;
+    border-radius: 5px;
+}
+
+QScrollBar::handle:vertical:hover {
+    background-color: #1177bb;
+}
+
+/* CANVAS (Matplotlib embutido) */
+FigureCanvasQTAgg {
+    background-color: #1e1e1e;
+    border: 1px solid #3c3c3c;
+    border-radius: 6px;
+}
+
+/* FRAMES E PAINÉIS */
+QFrame {
+    background-color: #252526;
+    border: 1px solid #3c3c3c;
+    border-radius: 6px;
+}
+
+/* TOOLTIP */
+QToolTip {
+    background-color: #252526;
+    color: #e6e6e6;
+    border: 1px solid #0e639c;
+    padding: 4px;
+    border-radius: 4px;
+    font-size: 13px;
+}
