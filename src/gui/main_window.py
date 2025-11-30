@@ -20,6 +20,7 @@ from PyQt6.QtWidgets import (
     QComboBox,
     QGroupBox,
     QMessageBox,
+    QTabWidget,
 )
 from PyQt6.QtCore import Qt, QTimer
 
@@ -39,6 +40,7 @@ from src.backtracking import (
 )
 from src.heuristic import heuristic_hamiltonian_path
 from src.utils.graph_generator import generate_random_graph, save_graph
+#from src.experiments.graph_experiments import run_experiments
 
 from src.gui.graph_canvas import GraphCanvas
 from src.gui.comparison_window import ComparisonWindow
@@ -75,6 +77,7 @@ class MainWindow(QMainWindow):
 
         self.combo_density = QComboBox()
         self.combo_density.addItems(["Esparso (p=0.2)", "Médio (p=0.5)", "Denso (p=0.8)"])
+        self.tabs = QTabWidget()
 
         layout_graph = QVBoxLayout()
         layout_graph.addWidget(btn_load)
@@ -183,6 +186,90 @@ class MainWindow(QMainWindow):
     # ------------------------------------------------------------------
     # Gerar grafo aleatório
     # ------------------------------------------------------------------
+
+    # ============================================================
+    #  ABA EXPERIMENTOS (INTEIRA E INDEPENDENTE)
+    # ============================================================
+    def build_experiments_tab(self):
+        from PyQt6.QtWidgets import (
+            QWidget, QVBoxLayout, QLabel, QComboBox,
+            QSpinBox, QPushButton, QTextEdit
+        )
+
+        tab = QWidget()
+        layout = QVBoxLayout(tab)
+
+        # Tamanho
+        layout.addWidget(QLabel("Tamanho do grafo (n):"))
+        self.exp_size = QSpinBox()
+        self.exp_size.setRange(5, 100)
+        self.exp_size.setValue(20)
+        layout.addWidget(self.exp_size)
+
+        # Densidade
+        layout.addWidget(QLabel("Densidade do grafo:"))
+        self.exp_density = QComboBox()
+        self.exp_density.addItems(["sparse", "medium", "dense"])
+        layout.addWidget(self.exp_density)
+
+        # Repetições
+        layout.addWidget(QLabel("Repetições:"))
+        self.exp_reps = QSpinBox()
+        self.exp_reps.setRange(1, 100)
+        self.exp_reps.setValue(5)
+        layout.addWidget(self.exp_reps)
+
+        # Botão executar
+        self.btn_exp_run = QPushButton("Executar Experimentos")
+        self.btn_exp_run.clicked.connect(self.on_run_experiments)
+        layout.addWidget(self.btn_exp_run)
+
+        # Botão exportar CSV
+        self.btn_exp_export = QPushButton("Exportar CSV")
+        self.btn_exp_export.clicked.connect(self.on_export_csv)
+        layout.addWidget(self.btn_exp_export)
+
+        # Caixa de logs local da aba
+        self.exp_output = QTextEdit()
+        self.exp_output.setReadOnly(True)
+        self.exp_output.setMinimumHeight(300)
+        layout.addWidget(self.exp_output)
+
+        return tab
+
+    def on_run_experiments(self):
+        """
+        Roda experimentos usando o módulo externo experiments/
+        sem tocar na lógica atual da GUI.
+        """
+        
+
+        n = self.exp_size.value()
+        density = self.exp_density.currentText()
+        reps = self.exp_reps.value()
+
+        self.exp_output.append(f"\n--- Executando experimentos ---")
+        self.exp_output.append(f"n={n}, densidade={density}, repetições={reps}\n")
+
+        results = run_experiments(n, density, reps)
+        self.experiment_last = results
+
+        bt_times = [r["bt_time"] for r in results["runs"]]
+        h_times = [r["h_time"] for r in results["runs"]]
+        bt_success = sum(r["bt_success"] for r in results["runs"])
+        h_success = sum(r["h_success"] for r in results["runs"])
+
+        self.exp_output.append("Backtracking:")
+        self.exp_output.append(f"  Tempo médio: {sum(bt_times)/len(bt_times):.5f}s")
+        self.exp_output.append(f"  Sucesso: {bt_success}/{reps}")
+
+        self.exp_output.append("\nHeurística:")
+        self.exp_output.append(f"  Tempo médio: {sum(h_times)/len(h_times):.5f}s")
+        self.exp_output.append(f"  Sucesso: {h_success}/{reps}")
+
+        self.exp_output.append("\n--- Concluído ---\n")
+
+
 
     def on_generate_graph(self):
         n = self.spin_n.value()

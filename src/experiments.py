@@ -1,9 +1,9 @@
 # src/experiments.py
 
 import time
-from graph_io import load_graph
-from backtracking import hamiltonian_path_backtracking
-from heuristic import heuristic_hamiltonian_path
+from src.graph_io import load_graph
+from src.backtracking import hamiltonian_path_backtracking
+from src.heuristic import heuristic_hamiltonian_path
 
 def run_experiment(path):
     n, adj = load_graph(path)
