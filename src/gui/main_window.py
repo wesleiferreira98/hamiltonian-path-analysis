@@ -26,6 +26,7 @@ from PyQt6.QtCore import Qt, QTimer
 
 # Logger avançado
 from src.gui.logger_widget import LoggerWidget
+from src.gui.experiments_tab import ExperimentsTab
 
 # Corrigir PATH
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -66,6 +67,35 @@ class MainWindow(QMainWindow):
         self.label_status = QLabel("Nenhum grafo carregado.")
         self.label_status.setWordWrap(True)
 
+        # === TABS PRINCIPAIS ===
+        self.main_tabs = QTabWidget()
+        
+        # Aba 1: Interface principal (grafo atual)
+        self.main_graph_tab = self._create_main_graph_tab()
+        self.main_tabs.addTab(self.main_graph_tab, "Análise de Grafo")
+        
+        # Aba 2: Experimentos
+        self.experiments_tab = ExperimentsTab(self)
+        self.main_tabs.addTab(self.experiments_tab, "Experimentos")
+        
+        self.setCentralWidget(self.main_tabs)
+
+        # Timer para animação
+        self.step_generator = None
+        self.animation_timer = QTimer(self)
+        self.animation_timer.setInterval(300)
+        self.animation_timer.timeout.connect(self.on_animation_step)
+
+        self.load_stylesheet()
+
+    def _create_main_graph_tab(self) -> QWidget:
+        """Cria a aba principal de análise de grafo."""
+        tab = QWidget()
+
+    def _create_main_graph_tab(self) -> QWidget:
+        """Cria a aba principal de análise de grafo."""
+        tab = QWidget()
+
         # Grupo: carregamento / geração
         group_graph = QGroupBox("Grafo")
         btn_load = QPushButton("Carregar grafo de arquivo")
@@ -77,7 +107,6 @@ class MainWindow(QMainWindow):
 
         self.combo_density = QComboBox()
         self.combo_density.addItems(["Esparso (p=0.2)", "Médio (p=0.5)", "Denso (p=0.8)"])
-        self.tabs = QTabWidget()
 
         layout_graph = QVBoxLayout()
         layout_graph.addWidget(btn_load)
@@ -121,19 +150,11 @@ class MainWindow(QMainWindow):
         side_widget = QWidget()
         side_widget.setLayout(side_layout)
 
-        # Layout principal
-        central = QWidget()
+        # Layout principal da aba
         layout_main = QHBoxLayout()
         layout_main.addWidget(self.graph_canvas, stretch=3)
         layout_main.addWidget(side_widget, stretch=2)
-        central.setLayout(layout_main)
-        self.setCentralWidget(central)
-
-        # Timer para animação
-        self.step_generator = None
-        self.animation_timer = QTimer(self)
-        self.animation_timer.setInterval(300)
-        self.animation_timer.timeout.connect(self.on_animation_step)
+        tab.setLayout(layout_main)
 
         # Conexões
         btn_load.clicked.connect(self.on_load_graph)
@@ -142,7 +163,8 @@ class MainWindow(QMainWindow):
         btn_run_heur.clicked.connect(self.on_run_heur)
         btn_run_exact_animated.clicked.connect(self.on_start_animation)
         btn_compare.clicked.connect(self.on_compare)
-        self.load_stylesheet()
+        
+        return tab
 
 
 
@@ -186,90 +208,6 @@ class MainWindow(QMainWindow):
     # ------------------------------------------------------------------
     # Gerar grafo aleatório
     # ------------------------------------------------------------------
-
-    # ============================================================
-    #  ABA EXPERIMENTOS (INTEIRA E INDEPENDENTE)
-    # ============================================================
-    def build_experiments_tab(self):
-        from PyQt6.QtWidgets import (
-            QWidget, QVBoxLayout, QLabel, QComboBox,
-            QSpinBox, QPushButton, QTextEdit
-        )
-
-        tab = QWidget()
-        layout = QVBoxLayout(tab)
-
-        # Tamanho
-        layout.addWidget(QLabel("Tamanho do grafo (n):"))
-        self.exp_size = QSpinBox()
-        self.exp_size.setRange(5, 100)
-        self.exp_size.setValue(20)
-        layout.addWidget(self.exp_size)
-
-        # Densidade
-        layout.addWidget(QLabel("Densidade do grafo:"))
-        self.exp_density = QComboBox()
-        self.exp_density.addItems(["sparse", "medium", "dense"])
-        layout.addWidget(self.exp_density)
-
-        # Repetições
-        layout.addWidget(QLabel("Repetições:"))
-        self.exp_reps = QSpinBox()
-        self.exp_reps.setRange(1, 100)
-        self.exp_reps.setValue(5)
-        layout.addWidget(self.exp_reps)
-
-        # Botão executar
-        self.btn_exp_run = QPushButton("Executar Experimentos")
-        self.btn_exp_run.clicked.connect(self.on_run_experiments)
-        layout.addWidget(self.btn_exp_run)
-
-        # Botão exportar CSV
-        self.btn_exp_export = QPushButton("Exportar CSV")
-        self.btn_exp_export.clicked.connect(self.on_export_csv)
-        layout.addWidget(self.btn_exp_export)
-
-        # Caixa de logs local da aba
-        self.exp_output = QTextEdit()
-        self.exp_output.setReadOnly(True)
-        self.exp_output.setMinimumHeight(300)
-        layout.addWidget(self.exp_output)
-
-        return tab
-
-    def on_run_experiments(self):
-        """
-        Roda experimentos usando o módulo externo experiments/
-        sem tocar na lógica atual da GUI.
-        """
-        
-
-        n = self.exp_size.value()
-        density = self.exp_density.currentText()
-        reps = self.exp_reps.value()
-
-        self.exp_output.append(f"\n--- Executando experimentos ---")
-        self.exp_output.append(f"n={n}, densidade={density}, repetições={reps}\n")
-
-        results = run_experiments(n, density, reps)
-        self.experiment_last = results
-
-        bt_times = [r["bt_time"] for r in results["runs"]]
-        h_times = [r["h_time"] for r in results["runs"]]
-        bt_success = sum(r["bt_success"] for r in results["runs"])
-        h_success = sum(r["h_success"] for r in results["runs"])
-
-        self.exp_output.append("Backtracking:")
-        self.exp_output.append(f"  Tempo médio: {sum(bt_times)/len(bt_times):.5f}s")
-        self.exp_output.append(f"  Sucesso: {bt_success}/{reps}")
-
-        self.exp_output.append("\nHeurística:")
-        self.exp_output.append(f"  Tempo médio: {sum(h_times)/len(h_times):.5f}s")
-        self.exp_output.append(f"  Sucesso: {h_success}/{reps}")
-
-        self.exp_output.append("\n--- Concluído ---\n")
-
-
 
     def on_generate_graph(self):
         n = self.spin_n.value()

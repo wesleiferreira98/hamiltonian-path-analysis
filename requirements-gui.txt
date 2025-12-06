@@ -1,0 +1,4 @@
+# Dependências opcionais para interface gráfica
+PyQt6==6.10.0
+matplotlib==3.10.7
+networkx==3.6
