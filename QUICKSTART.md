@@ -280,16 +280,6 @@ python main.py batch --output results.csv
 
 ---
 
-## Próximos Passos
-
-1. Execute alguns experimentos de teste
-2. Explore os comandos disponíveis
-3. Gere dados para seu TCC/projeto
-4. Leia o README.md completo
-5. (Opcional) Experimente a GUI
-
----
-
 **Pronto para começar!**
 
 Execute:
