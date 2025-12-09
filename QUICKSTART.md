@@ -112,7 +112,7 @@ Speedup (BT/H): 28.10x
 ================================================================================
 ```
 
-### Batch de Experimentos (Para TCC/Paper)
+### Batch de Experimentos
 
 ```bash
 # Batch completo com tamanhos e densidades padrão
