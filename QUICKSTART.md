@@ -160,7 +160,7 @@ n     Dens     BT Tempo     BT Taxa    BT Passos    H Tempo      H Taxa
 
 ---
 
-## nterface Gráfica (Opcional)
+## Interface Gráfica (Opcional)
 
 Se você quiser usar a interface gráfica:
 
@@ -234,7 +234,7 @@ python main.py batch --help
 
 ---
 
-## Workflow 
+## Workflow
 
 ```bash
 # 1. Gerar dados experimentais

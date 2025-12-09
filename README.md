@@ -127,7 +127,7 @@ hamiltonian-path-analysis/
    - Busca exaustiva
    - Garantia de encontrar caminho se existir
    - Coleta estatísticas (número de passos)
-   - Complexidade exponencial O(n!)
+   - Complexidade O(n!)
 2. **Heurística Gulosa**
 
    - Escolhe sempre o vértice vizinho com menor grau
@@ -328,7 +328,7 @@ python demo_experiments.py
 
 ## Licença
 
-[Incluir informações de licença aqui]
+ Apache License Version 2.0
 
 ---
 
