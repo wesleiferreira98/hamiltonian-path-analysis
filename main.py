@@ -186,12 +186,14 @@ def cmd_experiment(args):
     print(f"{Colors.BOLD}EXPERIMENTO INDIVIDUAL{Colors.ENDC}")
     print(f"{Colors.HEADER}{'='*80}{Colors.ENDC}\n")
     
-    runner = ExperimentRunner()
+    timeout = getattr(args, 'timeout', 60)
+    runner = ExperimentRunner(timeout_seconds=timeout)
     
     print(f"Configuração:")
     print(f"  n = {args.n}")
     print(f"  densidade = {args.density}")
     print(f"  repetições = {args.repetitions}")
+    print(f"  timeout = {timeout}s")
     print()
     
     print(f"{Colors.OKCYAN}Executando experimento...{Colors.ENDC}\n")
@@ -231,7 +233,8 @@ def cmd_batch(args):
     print(f"{Colors.BOLD}BATCH DE EXPERIMENTOS{Colors.ENDC}")
     print(f"{Colors.HEADER}{'='*80}{Colors.ENDC}\n")
     
-    runner = ExperimentRunner()
+    timeout = getattr(args, 'timeout', 60)
+    runner = ExperimentRunner(timeout_seconds=timeout)
     
     # Parse tamanhos
     if args.sizes:
@@ -250,6 +253,7 @@ def cmd_batch(args):
     print(f"  Densidades: {densities}")
     print(f"  Repetições: {args.repetitions}")
     print(f"  Total de experimentos: {len(sizes) * len(densities)}")
+    print(f"  Timeout por experimento: {args.timeout if hasattr(args, 'timeout') else 60}s")
     print()
     
     total = len(sizes) * len(densities)
@@ -263,7 +267,8 @@ def cmd_batch(args):
             result = runner.run_single_experiment(n, density, args.repetitions)
             stats = result['statistics']
             
-            print(f"{Colors.OKGREEN}✓{Colors.ENDC} (BT: {stats['bt_avg_time']:.4f}s, H: {stats['h_avg_time']:.4f}s)")
+            timeout_mark = f" ⏱️" if stats.get('bt_timeout_count', 0) > 0 else ""
+            print(f"{Colors.OKGREEN}✓{Colors.ENDC} (BT: {stats['bt_avg_time']:.4f}s, H: {stats['h_avg_time']:.4f}s, Mem BT: {stats.get('bt_avg_memory', 0):.1f}MB){timeout_mark}")
     
     print(f"\n{Colors.OKGREEN}✓ Batch concluído!{Colors.ENDC}\n")
     
@@ -274,6 +279,13 @@ def cmd_batch(args):
     if args.output:
         runner.export_to_csv(args.output)
         print(f"\n{Colors.OKGREEN}✓{Colors.ENDC} Resultados exportados para: {args.output}")
+        
+        # Gerar gráficos
+        if hasattr(args, 'plots') and args.plots:
+            print(f"\n{Colors.OKCYAN}Gerando gráficos...{Colors.ENDC}")
+            plots = runner.generate_plots()
+            if plots:
+                print(f"{Colors.OKGREEN}✓{Colors.ENDC} {len(plots)} gráficos gerados em results/plots/")
     
     print(f"\n{Colors.HEADER}{'='*80}{Colors.ENDC}")
     return 0
@@ -347,7 +359,11 @@ Exemplos:
                             help='Densidade do grafo')
     parser_exp.add_argument('-r', '--repetitions', type=int, default=5, 
                             help='Número de repetições (padrão: 5)')
+    parser_exp.add_argument('-t', '--timeout', type=int, default=60,
+                            help='Timeout em segundos por experimento (padrão: 60)')
     parser_exp.add_argument('-o', '--output', help='Arquivo CSV de saída')
+    parser_exp.add_argument('--plots', action='store_true',
+                            help='Gerar gráficos (requer matplotlib)')
     
     # Comando: batch
     parser_batch = subparsers.add_parser('batch', help='Executar batch de experimentos')
@@ -355,7 +371,11 @@ Exemplos:
     parser_batch.add_argument('-d', '--densities', help='Densidades separadas por vírgula (padrão: sparse,medium,dense)')
     parser_batch.add_argument('-r', '--repetitions', type=int, default=5, 
                               help='Número de repetições (padrão: 5)')
+    parser_batch.add_argument('-t', '--timeout', type=int, default=60,
+                              help='Timeout em segundos por experimento (padrão: 60)')
     parser_batch.add_argument('-o', '--output', help='Arquivo CSV de saída')
+    parser_batch.add_argument('--plots', action='store_true',
+                              help='Gerar gráficos automaticamente (requer matplotlib)')
     
     # Comando: gui
     parser_gui = subparsers.add_parser('gui', help='Iniciar interface gráfica (requer PyQt6)')

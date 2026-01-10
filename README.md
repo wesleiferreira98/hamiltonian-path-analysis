@@ -1,6 +1,40 @@
 # Hamiltonian Path Analysis
 
-Ferramenta completa para análise de algoritmos de busca de caminhos hamiltonianos em grafos. Compara o desempenho de **backtracking exato** vs **heurística**.
+Ferramenta completa para análise de algoritmos de busca de caminhos hamiltonianos em grafos. Compara o desempenho de **backtracking exato** vs **heurística** com monitoramento de memória e geração automática de gráficos.
+
+## Novidades (v2.0)
+
+- **Timeout configurável** - Evita que experimentos travem indefinidamente
+- **Monitoramento de memória** - Mede consumo real de RAM de cada algoritmo
+- **Gráficos automáticos** - Visualizações comparativas de performance
+- **Análise detalhada** - Entenda por que grafos sparse demoram mais
+- **Jupyter Notebooks** - Demonstração interativa completa para revisores
+
+Veja [PERFORMANCE_ANALYSIS.md](PERFORMANCE_ANALYSIS.md) para detalhes técnicos.
+
+---
+
+## Início Rápido para Revisores
+
+### Opção 1: Jupyter Notebook (Recomendado!)
+
+**Execute o projeto completo no navegador, sem instalar nada!**
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/wesleiferreira98/hamiltonian-path-analysis/blob/main/notebooks/hamiltonian_path_complete_demo.ipynb)
+
+**Conteúdo do notebook:**
+
+- Implementação completa dos algoritmos
+- Exemplos práticos interativos
+- Experimentos com visualizações
+- Análise de performance
+- Explicações detalhadas
+
+Veja [notebooks/README.md](notebooks/README.md) para mais opções.
+
+### Opção 2: Linha de Comando
+
+---
 
 ## Uso Rápido (Sem Instalação de GUI)
 
@@ -29,14 +63,24 @@ O projeto funciona **completamente via linha de comando**, sem necessidade de in
 ### Executar Experimentos
 
 ```bash
-# Experimento individual
-./run.sh experiment 30 sparse --repetitions 10 --output results.csv
+# Experimento individual com timeout
+./run.sh experiment 30 sparse --repetitions 10 --timeout 60 --output results.csv
 
-# Batch completo (múltiplos tamanhos e densidades)
-./run.sh batch --sizes 10,20,30 --densities sparse,dense --output batch.csv
+# Batch com gráficos automáticos 📊
+./run.sh batch --sizes 10,20,30 --densities sparse,dense --output batch.csv --plots
 
-# Batch padrão (10,20,30,40,50 x sparse,medium,dense)
-./run.sh batch --output resultados.csv
+# Batch padrão com timeout customizado
+./run.sh batch --timeout 120 --output resultados.csv --plots
+```
+
+### Demonstração Rápida
+
+```bash
+# Executar demo com grafos pequenos (n=10,15,20)
+python demo_performance.py
+
+# Demo de monitoramento de memória
+python demo_performance.py memory
 ```
 
 ### Ajuda
@@ -56,7 +100,7 @@ O projeto funciona **completamente via linha de comando**, sem necessidade de in
 
 ### Uso Básico (CLI apenas)
 
-**Nenhuma dependência externa é necessária!** Apenas Python 3.6+ padrão.
+**Python 3.6+ padrão** é suficiente para funcionalidade básica.
 
 ```bash
 git clone https://github.com/wesleiferreira98/hamiltonian-path-analysis.git
@@ -64,9 +108,23 @@ cd hamiltonian-path-analysis
 ./run.sh --help
 ```
 
+### Monitoramento de Memória e Gráficos (Recomendado)
+
+Para funcionalidades avançadas (monitoramento de memória e gráficos):
+
+```bash
+pip install -r requirements-full.txt
+```
+
+Ou apenas o essencial:
+
+```bash
+pip install psutil matplotlib
+```
+
 ### Uso com Interface Gráfica (Opcional)
 
-Se você deseja usar a interface gráfica (opcional):
+Se você deseja usar a interface gráfica:
 
 ```bash
 pip install -r requirements-gui.txt
