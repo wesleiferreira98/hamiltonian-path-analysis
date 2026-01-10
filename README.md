@@ -61,16 +61,6 @@ O projeto funciona **completamente via linha de comando**, sem necessidade de in
 ./run.sh batch --timeout 120 --output resultados.csv --plots
 ```
 
-### Demonstração Rápida
-
-```bash
-# Executar demo com grafos pequenos (n=10,15,20)
-python demo_performance.py
-
-# Demo de monitoramento de memória
-python demo_performance.py memory
-```
-
 ### Ajuda
 
 ```bash
@@ -112,17 +102,109 @@ pip install psutil matplotlib
 
 ### Uso com Interface Gráfica (Opcional)
 
-Se você deseja usar a interface gráfica:
+A interface gráfica requer dependências adicionais e deve ser instalada em um **ambiente virtual** para evitar conflitos.
 
+#### Instalação Automática (Recomendado)
+
+**Linux/macOS:**
 ```bash
-pip install -r requirements-gui.txt
+./setup_gui.sh
+source venv/bin/activate
 ./run.sh gui
 ```
 
-Ou diretamente:
+**Windows:**
+```batch
+setup_gui.bat
+venv\Scripts\activate
+python run.sh gui
+```
 
+#### Instalação Manual
+
+**Ubuntu/Debian:**
 ```bash
-python -m src.gui.main_window
+# Instalar Python venv se necessário
+sudo apt update
+sudo apt install python3-venv python3-pip
+
+# Criar e ativar ambiente virtual
+python3 -m venv venv
+source venv/bin/activate
+
+# Instalar dependências
+pip install --upgrade pip
+pip install -r requirements-gui.txt
+
+# Executar GUI
+./run.sh gui
+```
+
+**Fedora/RHEL:**
+```bash
+# Instalar Python venv se necessário
+sudo dnf install python3-virtualenv python3-pip
+
+# Criar e ativar ambiente virtual
+python3 -m venv venv
+source venv/bin/activate
+
+# Instalar dependências
+pip install --upgrade pip
+pip install -r requirements-gui.txt
+
+# Executar GUI
+./run.sh gui
+```
+
+**Arch Linux:**
+```bash
+# Instalar Python venv se necessário
+sudo pacman -S python-virtualenv python-pip
+
+# Criar e ativar ambiente virtual
+python -m venv venv
+source venv/bin/activate
+
+# Instalar dependências
+pip install --upgrade pip
+pip install -r requirements-gui.txt
+
+# Executar GUI
+./run.sh gui
+```
+
+**Windows:**
+```batch
+REM Criar e ativar ambiente virtual
+python -m venv venv
+venv\Scripts\activate
+
+REM Instalar dependências
+python -m pip install --upgrade pip
+pip install -r requirements-gui.txt
+
+REM Executar GUI
+python main.py gui
+```
+
+**macOS:**
+```bash
+# Criar e ativar ambiente virtual
+python3 -m venv venv
+source venv/bin/activate
+
+# Instalar dependências
+pip install --upgrade pip
+pip install -r requirements-gui.txt
+
+# Executar GUI
+./run.sh gui
+```
+
+**Nota:** Para desativar o ambiente virtual após o uso, execute:
+```bash
+deactivate
 ```
 
 ---

@@ -1,4 +1,15 @@
-# Dependências opcionais para interface gráfica
-PyQt6==6.10.0
-matplotlib==3.10.7
+# Dependências completas do projeto
+# Para funcionalidades de monitoramento de memória e gráficos
+
+# Monitoramento de sistema
+psutil>=5.9.0
+
+# Geração de gráficos
+matplotlib>=3.5.0
+numpy>=1.21.0
+
+# GUI (opcional)
+PyQt6>=6.4.0
+
+
 networkx==3.6
