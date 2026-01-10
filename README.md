@@ -20,7 +20,7 @@ Veja [PERFORMANCE_ANALYSIS.md](PERFORMANCE_ANALYSIS.md) para detalhes técnicos.
 
 **Execute o projeto completo no navegador, sem instalar nada!**
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/wesleiferreira98/hamiltonian-path-analysis/blob/main/notebooks/hamiltonian_path_complete_demo.ipynb)
+[![https://colab.research.google.com/drive/1mrX705rGVzLQyid573LU9VsN3XYVwueH?usp=sharing](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/wesleiferreira98/hamiltonian-path-analysis/blob/main/notebooks/hamiltonian_path_complete_demo.ipynb)
 
 **Conteúdo do notebook:**
 
