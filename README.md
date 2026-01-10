@@ -2,18 +2,6 @@
 
 Ferramenta completa para análise de algoritmos de busca de caminhos hamiltonianos em grafos. Compara o desempenho de **backtracking exato** vs **heurística** com monitoramento de memória e geração automática de gráficos.
 
-## Novidades (v2.0)
-
-- **Timeout configurável** - Evita que experimentos travem indefinidamente
-- **Monitoramento de memória** - Mede consumo real de RAM de cada algoritmo
-- **Gráficos automáticos** - Visualizações comparativas de performance
-- **Análise detalhada** - Entenda por que grafos sparse demoram mais
-- **Jupyter Notebooks** - Demonstração interativa completa para revisores
-
-Veja [PERFORMANCE_ANALYSIS.md](PERFORMANCE_ANALYSIS.md) para detalhes técnicos.
-
----
-
 ## Início Rápido para Revisores
 
 ### Opção 1: Jupyter Notebook (Recomendado!)
