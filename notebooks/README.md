@@ -39,7 +39,7 @@ Este diretório contém notebooks Jupyter interativos para facilitar a compreens
 
 Clique no botão abaixo para abrir diretamente no Google Colab:
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/wesleiferreira98/hamiltonian-path-analysis/blob/main/notebooks/hamiltonian_path_complete_demo.ipynb)
+[![https://colab.research.google.com/drive/1mrX705rGVzLQyid573LU9VsN3XYVwueH?usp=sharing](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/wesleiferreira98/hamiltonian-path-analysis/blob/main/notebooks/hamiltonian_path_complete_demo.ipynb)
 
 **Ou manualmente:**
 
@@ -326,7 +326,6 @@ pip install ipykernel
 
 - [src/algorithms/](../src/algorithms/) - Implementações dos algoritmos
 - [src/utils/](../src/utils/) - Ferramentas auxiliares
-- [demo_performance.py](../demo_performance.py) - Demo em linha de comando
 
 
 ---
