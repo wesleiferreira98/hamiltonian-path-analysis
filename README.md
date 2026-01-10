@@ -54,7 +54,7 @@ O projeto funciona **completamente via linha de comando**, sem necessidade de in
 # Experimento individual com timeout
 ./run.sh experiment 30 sparse --repetitions 10 --timeout 60 --output results.csv
 
-# Batch com gráficos automáticos 📊
+# Batch com gráficos automáticos
 ./run.sh batch --sizes 10,20,30 --densities sparse,dense --output batch.csv --plots
 
 # Batch padrão com timeout customizado
